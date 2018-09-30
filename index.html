@@ -248,6 +248,93 @@
 
 
   
+    <article id="post-netty-2017-1030" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/30/netty-2017-1030/">同步和异步、阻塞和非阻塞</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/30/netty-2017-1030/" class="archive-article-date">
+  	<time datetime="2017-10-30T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这个链接解释的非常好：<a href="https://www.zhihu.com/question/19732473" target="_blank" rel="noopener">https://www.zhihu.com/question/19732473</a></p>
+<h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a><strong>1、概念</strong></h2><p><font color="#ff0000">同步和异步关注的是消息通信机制，表示的是被调用者处理事件的行为方式</font><br>同步就是指我们的调用者发送一个调用，被调用者不会立刻返回，当然如果返回了，那就是调用者想要的东西。异步就是：被调用者会立刻返回，但是返回可能不是调用者想要的数据，而可能是数据是否准备好的状态。<br>如果调用者想要的数据准备好后，根据被调用者内部实现机制的不同，被调用者会使用状态、通知和回调三种方式告知调用者。（1）使用状态的方式，调用者和被调用者之间可能会共享一个变量，调用者需要自己主动去查看这个变量的值，这是很低效的；（2）使用通知或者回调的方式，被调用者会主动通知调用者，这是高效的实现方式<br><br></p>
+<p><font color="#ff0000">阻塞和阻塞关注的是程序在等待调用结果时所处的状态，表示的是调用者的状态</font><br>阻塞模式表示调用者发出一个调用之后，把自己挂起等待被调用者的返回，不去干别的事，非阻塞模式表示调用者在等待消息通知之前自己会去干别的事</p>
+<p>举个例子：<br>例子中挂电话是一次返回状态的行为，挂电话之前说的话就是返回值。<br>（1）同步和异步<br>A打电话向B借《Netty实战》这本书，B接到电话后，短时间一直没有给回音，大概过了n久B终于说话了，“好的，明天给你！”并挂断电话，这就是同步，这里B接到电话没有立即给回音，当然给了回音就是肯定的回音<br>另一种情况，A打电话向B借《Netty实战》这本书，B接到电话后立刻返回，“没有找到书”，于是就挂了电话。那么B找到了书之后怎么告知A呢：</p>
+<ul>
+<li>B和A约定，在A、B都可见的位置挂一面红旗表示书找到了，B挂了红旗之后，A是否能及时看到就很难说了，所以A只能自己主动去查看</li>
+<li>B找到书之后，主动打电话给A（我们这里就假设B打了电话A肯定能及时接到啦），A就可以及时接到书找到的通知啦，这个就很高效。</li>
+</ul>
+<p>（2）阻塞非阻塞<br>同样还是上面的例子，但是这里我们只关注A的状态。<br>A在等待B的消息时（很有可能是B没有回音的同步的消息，也有可能是B已经挂断了并主动打电话过来的异步的消息），A如果选择一直守在电话旁边，啥事也不干，那就是阻塞方式，相反，如果A在等待的时候跑去干别的事了，那就是非阻塞。</p>
+<p>##<strong>2、各种状态说明</strong><br>接下来对同步阻塞、同步非阻塞、异步阻塞、异步非阻塞分别说明。<br>其实理解了 上面的概念，对于这些组合是很好理解的，就是排列组合嘛<br>（1）同步阻塞<br>B一直没有回音，A只能在电话这边苦苦等待<br>（2）同步非阻塞<br>B一直没有回音，A去干别的事，当然A可以选择一些方式来看一下B是否有回音，比如定时轮询<br>（3）异步阻塞<br>B返回了“没有找到书”的消息，A于是就傻傻的等待B的电话<br>（4）异步非阻塞<br>B返回了“你让我找找，找到了我打电话告诉你”的消息，A选择一些方式来看一下B是否来了电话或者B是否挂了红旗，比如定时轮询</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Netty</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/30/netty-2017-1030/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-prevent-spiders" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -734,90 +821,6 @@
 
 
   
-    <article id="post-brave-new-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/10/brave-new-world/">美丽新世界</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/10/brave-new-world/" class="archive-article-date">
-  	<time datetime="2017-02-10T02:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=28949128&auto=0&height=66" style="margin-left: -10px;"></iframe>
-
-<p>痛仰有一首歌，叫《美丽新世界》，它其实是向80年前赫胥黎的同名小说致敬。<br>歌里唱道：<br><strong>“这是一个离奇的梦也是冒险者的乐园<br>不在乎你在不在乎新的世界依旧美丽…”</strong></p>
-<p>乌托邦如此美好，但在那里，幸福的人们全都是“被幸福的”。<br>你的在乎与否无关紧要，只需要按照秩序继续漫步。</p>
-<p>春节把<a href="https://movie.douban.com/subject/2338055/" target="_blank" rel="noopener">《西部世界》</a>看完，它的一些设定，也很容易看出致敬小说的意思，却又带来了另外的惊喜。<br>片尾Dolores的惊艳一枪尘埃落定，现在已经过去一段时间，花哨的剪辑褪出了印象，细微的东西反而更加深刻了。<br>还是想谈一谈这部作品。(含剧透…)</p>
-        
-          <a class="article-more-a" href="/2017/02/10/brave-new-world/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">杂谈</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/10/brave-new-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -923,18 +926,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">html5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">游戏</a>
               </li>
              
@@ -943,7 +934,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">旅行</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1015,6 +1014,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">html5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">前端</a>
               </li>
              
@@ -1032,6 +1035,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">故事</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Netty</a>
               </li>
              
               <li class="article-tag-list-item">
